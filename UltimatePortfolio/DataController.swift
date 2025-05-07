@@ -8,6 +8,9 @@
 import CoreData
 
 class DataController: ObservableObject {
+    @Published var selectedFilter: Filter? = Filter.all
+    
+    
     let container: NSPersistentCloudKitContainer
     
     init(inMemory: Bool = false) {
