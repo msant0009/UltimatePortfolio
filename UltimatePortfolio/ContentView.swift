@@ -35,10 +35,10 @@ struct ContentView: View {
            
         List {
             ForEach(issues) { issue in
-                Text(issue.issueTitle)
+                IssueRow(issue: issue)
             }
         }
-        .navigationTitle(Text("Issues"))
+        .navigationTitle("Issues")
         
         
     }//end body
@@ -46,5 +46,6 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(DataController.preview)
         
 }
