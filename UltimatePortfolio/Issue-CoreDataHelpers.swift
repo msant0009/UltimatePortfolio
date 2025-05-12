@@ -52,6 +52,19 @@ extension Issue {
         return issue
         
     }
+    
+    var issueTagsList: String {
+        guard let tags else {return "No tags"}
+        
+        if tags.count == 0 {
+            return "No tags"
+        } else {
+            return issueTags.map(\.tagName).formatted()
+        }
+        
+    }
+    
+    
 }
     
 extension Issue: Comparable {

@@ -9,9 +9,10 @@ import SwiftUI
 
 struct IssueView: View {
     @ObservedObject var issue: Issue
+    @EnvironmentObject var dataController: DataController
     
     var body: some View {
-        Form{
+        Form {
             Section{
                 VStack(alignment: .leading){
                     TextField("Title", text: $issue.issueTitle, prompt: Text("Enter the issue title here"))
@@ -27,7 +28,40 @@ struct IssueView: View {
                     Text("High").tag(Int16(2))
                 }
                 
-            }//end section 1
+                Menu {
+                    //show selected tags
+                    ForEach(issue.issueTags) { tag in
+                        Button {
+                            issue.removeFromTags(tag)
+                        } label: {
+                            Label(tag.tagName, systemImage: "checkmark")
+                        }
+                    }
+                
+
+                //show unselected tags
+                let otherTags = dataController.missingTags(from: issue)
+                
+                if otherTags.isEmpty == false {
+                    Divider()
+                    
+                   Section("Add Tags") {
+                        ForEach(otherTags) { tag in
+                            Button(tag.tagName) {
+                                issue.addToTags(tag)
+                            }
+                        }
+                   }
+                }
+               
+            } label: {
+                Text(issue.issueTagsList)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .animation(nil, value: issue.issueTagsList)
+            }
+        }
+            
             
             Section {
                 VStack(alignment: .leading){
@@ -45,6 +79,7 @@ struct IssueView: View {
             }//end section 2
             
         }//end form
+        .disabled(issue.isDeleted)
         
         
     }//end body
@@ -52,4 +87,5 @@ struct IssueView: View {
 
 #Preview {
     IssueView(issue: .example)
+        .environmentObject(DataController.preview)
 }

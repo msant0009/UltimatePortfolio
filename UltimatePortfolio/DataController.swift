@@ -106,6 +106,16 @@ class DataController: ObservableObject {
         objectWillChange.send()
     }
     
+    func missingTags(from issue: Issue) ->[Tag]{
+        let request = Tag.fetchRequest()
+        let allTags = (try? container.viewContext.fetch(request)) ?? []
+        let allTagSet = Set(allTags)
+        let difference = allTagSet.symmetricDifference(issue.issueTags)
+        
+        return difference.sorted()
+        
+    }
+    
     
     
 }
