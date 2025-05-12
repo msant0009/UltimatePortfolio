@@ -9,6 +9,7 @@ import CoreData
 
 class DataController: ObservableObject {
     @Published var selectedFilter: Filter? = Filter.all
+    @Published var selectedIssue: Issue?
     
     
     let container: NSPersistentCloudKitContainer
