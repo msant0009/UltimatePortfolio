@@ -80,6 +80,9 @@ struct IssueView: View {
             
         }//end form
         .disabled(issue.isDeleted)
+        .onReceive(issue.objectWillChange) { _ in
+            dataController.queueSave()
+        }
         
         
     }//end body

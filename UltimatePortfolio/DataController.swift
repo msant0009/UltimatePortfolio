@@ -10,6 +10,7 @@ import CoreData
 class DataController: ObservableObject {
     @Published var selectedFilter: Filter? = Filter.all
     @Published var selectedIssue: Issue?
+    private var saveTask: Task<Void, Error>?
     
     
     let container: NSPersistentCloudKitContainer
@@ -114,6 +115,16 @@ class DataController: ObservableObject {
         
         return difference.sorted()
         
+    }
+    
+    func queueSave() {
+        saveTask?.cancel()
+        
+        saveTask = Task { @MainActor in
+            try await Task.sleep(for: .seconds(3))
+            save()
+        }
+    
     }
     
     
