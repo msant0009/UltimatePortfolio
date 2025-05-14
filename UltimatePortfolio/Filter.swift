@@ -5,7 +5,7 @@
 //  Created by Mark Santoro on 5/6/25.
 //
 
-import SwiftUI
+import Foundation
 
 struct Filter: Identifiable, Hashable {
     var id: UUID
